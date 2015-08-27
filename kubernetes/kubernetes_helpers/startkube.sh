@@ -1,2 +1,2 @@
-. set_kube_env.sh
+. set-kube-env.sh
 kube-up.sh
