@@ -11,7 +11,7 @@ echo -e "kubectl logs <pod_name>\033[0m"
 echo Lists most recent logs for a given pod. Often enough for basic debugging.
 
 echo -e "\033[1;32m"
-echo -e "kubectl get config view\033[0m"
+echo -e "kubectl config view\033[0m"
 echo "List the IP address endpoints for the pod(s)."
 
 echo -e "\033[1;32m"
