@@ -1,5 +1,5 @@
 echo -e "\033[1;32m"
-echo -e "kubectl get [nodes | pods | services | replication controllers | namespaces | secrets | endpoints <pod_name>]\033[0m"
+echo -e "kubectl get [nodes | pods | services | replication controllers | namespaces | secrets | endpoints]\033[0m"
 echo Lists all nodes, pods, services, or replication controllers, respectively.
 
 echo -e "\033[1;32m"
@@ -26,6 +26,15 @@ echo -e "\033[1;32m"
 echo -e kubectl create -f cluster/addons/kube-ui/kube-ui-rc.yaml --namespace=kube-system
 echo -e "kubectl create -f cluster/addons/kube-ui/kube-ui-svc.yaml --namespace=kube-system\033[0m"
 echo Start Kubernetes UI. Get the stood up Url with ‘kubectl cluster-info’
+
+echo -e "\033[1;32m"
+echo -e "vagrant ssh minion-1 \t\t\t\t\t\t# SSH into the node you are operating on."
+echo -e "sudo su \t\t\t\t\t\t\t# Operate as root"
+echo -e "docker ps \t\t\t\t\t\t\t# Find and grab the container id (:CONTAINER_ID) for your image."
+echo -e "docker inspect --format {{.State.Pid}} :CONTAINER_ID \t\t# Copy process id (:PROC_ID)"
+echo -e "nsenter --target :PROC_ID --mount --uts --ipc --net --pid \t# Voila."
+echo -e "\033[0m"
+echo 'SSH' into a container.
 
 echo
 echo

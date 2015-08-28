@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kube-capabilities-demo
+  labels:
+    name: kube-capabilities-demo
+spec:
+  replicas: 1
+  selector:
+    name: kube-capabilities-demo
+  template:
+    metadata:
+      labels:
+        name: kube-capabilities-demo
+    spec:
+      containers:
+      - name: httpd
+        image: httpd
+        ports:
+        - containerPort: 80
+
+

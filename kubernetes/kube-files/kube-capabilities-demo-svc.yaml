@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-capabilities-demo
+  labels:
+    name: kube-capabilities-demo
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+  selector:
+    name: kube-capabilities-demo
+  containerPort: 80
