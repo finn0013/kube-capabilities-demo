@@ -31,8 +31,8 @@ echo -e "\033[1;32m"
 echo -e "vagrant ssh minion-1 \t\t\t\t\t\t# SSH into the node you are operating on."
 echo -e "sudo su \t\t\t\t\t\t\t# Operate as root"
 echo -e "docker ps \t\t\t\t\t\t\t# Find and grab the container id (:CONTAINER_ID) for your image."
-echo -e "docker inspect --format {{.State.Pid}} :CONTAINER_ID \t\t# Copy process id (:PROC_ID)"
-echo -e "nsenter --target :PROC_ID --mount --uts --ipc --net --pid \t# Voila."
+echo -e "docker inspect --format {{.State.Pid}} :CONTAINER_ID \t\t# Copy process id (:PROC_ID). Note these are dash-dash."
+echo -e "nsenter --target :PROC_ID --mount --uts --ipc --net --pid \t# Voila. Note these are dash-dash."
 echo -e "\033[0m"
 echo 'SSH' into a container.
 
