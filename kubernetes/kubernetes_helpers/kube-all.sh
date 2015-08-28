@@ -1,4 +1,4 @@
-. set_kube_env.sh
+. set-kube-env.sh
 echo
 
 echo -e "\033[1;32m"
