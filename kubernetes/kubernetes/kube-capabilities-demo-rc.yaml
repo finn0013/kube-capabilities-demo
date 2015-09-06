@@ -54,21 +54,24 @@ spec:
       
         # We are using a standard Tomcat image. 
         image: finn0013/tomcat-nano
-
-        # On start of the container pull the Git repo information in
-        # to the public html directory so we can serve it.
-        # TODO: WRITE THIS...
         
         # Expose the standard http port so we can get to it.
         ports:
         - containerPort: 8080
         
         # Create a few environment variables to illustrate how it works.
-#        env:
-#        - name: ENV_INFO
-#          value: Value pulled from ENV variables.
-#        - name: ENV_INFO_2
-#          value: 2nd value pulled from ENV variables.
+
+########################################################################################
+# THIS DOESN'T SEEM TO WORK BUT ACCORDING TO THE DOCUMENTATION SHOULD... >>>
+########################################################################################
+        env:
+        - name: ENV_INFO
+          value: Value pulled from ENV variables.
+        - name: ENV_INFO_2
+          value: 2nd value pulled from ENV variables.
+########################################################################################
+# << THIS DOESN'T SEEM TO WORK BUT ACCORDING TO THE DOCUMENTATION SHOULD...
+########################################################################################
 
         # Mount the volumes defined for these pods.
         volumeMounts:
@@ -106,7 +109,9 @@ spec:
 #        lifecycle:
 #          postStart:
 #            exec:
-            
+# TODO:
+# On start of the container pull the Git repo information in
+# to the public html directory so we can serve it.            
               # Create a file as a proof of concept that we can manipulate
               # the running environment upon startup.
 #              command: [ "echo", "This is my JSP, yo.", ">", "/usr/local/tomcat/webapps/ROOT/yo.jsp" ]
