@@ -36,7 +36,7 @@ spec:
         
     spec:
     
-#      volumes:
+      volumes:
 
       # Set up a gitRepo volume.
 #      - name: kube-capabilities-demo-git
@@ -45,23 +45,22 @@ spec:
 #          revision: master
 
       # Pull in some secret data (just because).
-#      - name: kube-capabilities-demo-secret
-#        secret:
-#          secretName: kube-capabilities-demo-secret
+      - name: kube-capabilities-demo-secret
+        secret:
+          secretName: kube-capabilities-demo-secret
     
       containers:
       - name: kube-capabilities-demo
       
         # We are using a standard Tomcat image. 
         image: finn0013/tomcat-nano
-        
+
         # On start of the container pull the Git repo information in
         # to the public html directory so we can serve it.
-#        comand:
-#        - "TODO TODO TODO TODO TODO TODO TODO TODO TODO"
+        # TODO: WRITE THIS...
 
         # Set the start directory to the public html path.
-#        workingDir: /usr/local/apache2/htdocs
+        workingDir: /usr/local/tomcat/webapps/ROOT
         
         # Expose the standard http port so we can get to it.
         ports:
@@ -75,17 +74,17 @@ spec:
 #          value: 2nd value pulled from ENV variables.
 
         # Mount the volumes defined for these pods.
-#        volumeMounts:
+        volumeMounts:
         
-        # Mount our secreats.
-#        - name: kube-capabilities-demo-secret
-#          readOnly: true
-#          mountPath: /etc/kube-capabilities-demo/secrets
+        # Mount our secrets.
+        - name: kube-capabilities-demo-secret
+          readOnly: true
+          mountPath: /etc/kube-capabilities-demo/secrets
           
         # Mount our git repo volume.
 #        - name: kube-capabilities-demo-git
 #          readOnly: true
-#          mountPath: / etc/kube-capabilities-demo/git
+#          mountPath: /etc/kube-capabilities-demo/git
 
         # Set up a probe to check whether the system is live or not.
         # Set up here just to demonstrate the concept.
@@ -110,7 +109,10 @@ spec:
 #        lifecycle:
 #          postStart:
 #            exec:
-#              command: "DO SOMETHING"
+            
+              # Create a file as a proof of concept that we can manipulate
+              # the running environment upon startup.
+#              command: [ "echo", "This is my JSP, yo.", ">", "/usr/local/tomcat/webapps/ROOT/yo.jsp" ]
 #          preStop:
 #            exec:
 #              command: "DO SOMETHING"          
