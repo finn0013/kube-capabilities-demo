@@ -66,9 +66,9 @@ spec:
         # these environment variables.
         env:
         - name: ENV_INFO
-          value: "Value pulled from ENV variables."
+          value: Value pulled from ENV variables.
         - name: ENV_INFO_2
-          value: 2nd value pulled from ENV variables."
+          value: 2nd value pulled from ENV variables.
 
         # Mount the volumes defined for these pods.
         volumeMounts:
