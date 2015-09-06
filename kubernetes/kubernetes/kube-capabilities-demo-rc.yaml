@@ -58,9 +58,6 @@ spec:
         # On start of the container pull the Git repo information in
         # to the public html directory so we can serve it.
         # TODO: WRITE THIS...
-
-        # Set the start directory to the public html path.
-        workingDir: /usr/local/tomcat/webapps/ROOT
         
         # Expose the standard http port so we can get to it.
         ports:
