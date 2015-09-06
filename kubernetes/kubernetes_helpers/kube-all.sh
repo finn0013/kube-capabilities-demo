@@ -25,5 +25,23 @@ echo -e "========================\033[0m"
 kubectl get replicationcontrollers
 echo
 
+echo -e "\033[1;32m"
+echo SECRETS:
+echo -e "========================\033[0m"
+kubectl get secrets
+echo
+
+echo -e "\033[1;32m"
+echo NAMESPACES:
+echo -e "========================\033[0m"
+kubectl get namespaces
+echo
+
+echo -e "\033[1;32m"
+echo ENDPOINTS:
+echo -e "========================\033[0m"
+kubectl get endpoints
+echo
+
 echo
 echo
