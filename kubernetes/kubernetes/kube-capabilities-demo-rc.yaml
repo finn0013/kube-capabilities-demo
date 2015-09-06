@@ -60,18 +60,15 @@ spec:
         - containerPort: 8080
         
         # Create a few environment variables to illustrate how it works.
-
-########################################################################################
-# THIS DOESN'T SEEM TO WORK BUT ACCORDING TO THE DOCUMENTATION SHOULD... >>>
-########################################################################################
+        # You can check the variables by ssh-ing to the node then running:
+        # docker exec -it [POD-ID] printenv
+        # Note that using nsenter to get to the container will not expose
+        # these environment variables.
         env:
         - name: ENV_INFO
-          value: Value pulled from ENV variables.
+          value: "Value pulled from ENV variables."
         - name: ENV_INFO_2
-          value: 2nd value pulled from ENV variables.
-########################################################################################
-# << THIS DOESN'T SEEM TO WORK BUT ACCORDING TO THE DOCUMENTATION SHOULD...
-########################################################################################
+          value: 2nd value pulled from ENV variables."
 
         # Mount the volumes defined for these pods.
         volumeMounts:
