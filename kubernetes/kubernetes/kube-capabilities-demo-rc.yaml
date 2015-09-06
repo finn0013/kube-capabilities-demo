@@ -103,15 +103,29 @@ spec:
           
         # Set up lifecycle hooks to invoke events upon the start and
         # stop of the container.
-#        lifecycle:
-#          postStart:
+        lifecycle:
+          postStart:
+
+
 #            exec:
-# TODO:
+# TODO: FIGURE OUT HOW TO MAKE THIS HAPPEN CORRECTLY - COMMAND AND POSTSTART EXEC ARE NOT WORKING FOR ME>>>
 # On start of the container pull the Git repo information in
 # to the public html directory so we can serve it.            
               # Create a file as a proof of concept that we can manipulate
               # the running environment upon startup.
-#              command: [ "echo", "This is my JSP, yo.", ">", "/usr/local/tomcat/webapps/ROOT/yo.jsp" ]
+#              command: 
+#              - "echo"
+#              - "This is my JSP, yo."
+#              - ">"
+#              - "/usr/local/tomcat/webapps/ROOT/yo.jsp"
+
+              # Showing how to call an external URL on start. This example
+              # hits 'counter.php' to increment a count. Hit 'counter.txt'
+              # to see the count and 'reset.php' to reset to 0.
+              httpGet:
+                path: /files/hitcount/counter.php
+                port: 80
+                host: www.mcdonaldland.info
 #          preStop:
 #            exec:
 #              command: "DO SOMETHING"          
