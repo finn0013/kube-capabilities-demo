@@ -16,7 +16,7 @@ metadata:
 spec:
 
   # Make sure we keep 3 pods up at all times.
-  replicas: 3
+  replicas: 1
   
   
   selector:
@@ -50,7 +50,7 @@ spec:
 #          secretName: kube-capabilities-demo-secret
     
       containers:
-      - name: http-kube-capabilities-demo
+      - name: kube-capabilities-demo
       
         # We are using a standard Tomcat image. 
 # TODO: UPDATE TO USE TOMCAT WITH NANO        
