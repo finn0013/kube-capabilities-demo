@@ -53,8 +53,7 @@ spec:
       - name: kube-capabilities-demo
       
         # We are using a standard Tomcat image. 
-# TODO: UPDATE TO USE TOMCAT WITH NANO        
-        image: finn0013/httpd-nano
+        image: finn0013/tomcat-nano
         
         # On start of the container pull the Git repo information in
         # to the public html directory so we can serve it.
@@ -66,7 +65,7 @@ spec:
         
         # Expose the standard http port so we can get to it.
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         
         # Create a few environment variables to illustrate how it works.
 #        env:
