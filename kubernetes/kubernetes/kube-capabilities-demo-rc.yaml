@@ -117,8 +117,8 @@ spec:
           
         # Set up lifecycle hooks to invoke events upon the start and
         # stop of the container.
-        lifecycle:
-          postStart:
+#        lifecycle:
+#          postStart:
 
 
 # TODO: FIGURE OUT HOW TO MAKE THIS HAPPEN CORRECTLY - COMMAND AND POSTSTART EXEC ARE NOT WORKING FOR ME>>>
@@ -128,14 +128,14 @@ spec:
 
             # Create a file as a proof of concept that we can manipulate
             # the running environment upon startup.
-            exec:
-              command:
+#            exec:
+#              command:
 ########################################################
 ########################################################
 ## THIS SEEMS TO MAKE THE NODE MOVE TO NotReady >>>
 ########################################################
 ########################################################
-              - "/bin/bash -c 'mv /usr/local/tomcat/webapps/ROOT/index.jsp /usr/local/tomcat/webapps/ROOT/yo.jsp'"
+#              - "/bin/bash -c 'mv /usr/local/tomcat/webapps/ROOT/index.jsp /usr/local/tomcat/webapps/ROOT/yo.jsp'"
 #              command: [ 'while true; do echo "I am up.."; sleep 2; done' ]
 #              command: [ "echo", "adsf", ">'", "/usr/local/tomcat/webapps/ROOT/yo.jsp" ]
 #              command:
