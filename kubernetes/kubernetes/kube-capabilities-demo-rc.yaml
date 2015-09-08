@@ -54,6 +54,18 @@ spec:
       
         # We are using a standard Tomcat image. 
         image: finn0013/tomcat-nano
+      
+#############################
+##### THIS WORKS TO START THE SERVER, HOWEVER WON'T
+##### ACTUALLY CREATE THE JSP FILE.      
+        command:
+          - "catalina.sh"
+          - "run"
+          - "&&"
+          - "echo"
+          - "adsf"
+          - ">"
+          - "/usr/local/tomcat/webapps/ROOT/yo.jsp"          
         
         # Expose the standard http port so we can get to it.
         ports:
@@ -107,25 +119,31 @@ spec:
           postStart:
 
 
-#            exec:
 # TODO: FIGURE OUT HOW TO MAKE THIS HAPPEN CORRECTLY - COMMAND AND POSTSTART EXEC ARE NOT WORKING FOR ME>>>
 # On start of the container pull the Git repo information in
 # to the public html directory so we can serve it.            
-              # Create a file as a proof of concept that we can manipulate
-              # the running environment upon startup.
-#              command: 
-#              - "echo"
-#              - "This is my JSP, yo."
-#              - ">"
-#              - "/usr/local/tomcat/webapps/ROOT/yo.jsp"
+
+
+            # Create a file as a proof of concept that we can manipulate
+            # the running environment upon startup.
+#            exec:
+#              command: [ "echo", "adsf", ">'", "/usr/local/tomcat/webapps/ROOT/yo.jsp" ]
+#              command:
+#                - "echo"
+#                - "adsf"
+#                - ">"
+#                - "/usr/local/tomcat/webapps/ROOT/yo.jsp"
+
 
               # Showing how to call an external URL on start. This example
               # hits 'counter.php' to increment a count. Hit 'counter.txt'
               # to see the count and 'reset.php' to reset to 0.
-              httpGet:
-                path: /files/hitcount/counter.php
-                port: 80
-                host: www.mcdonaldland.info
+#              httpGet:
+#                path: /files/hitcount/counter.php
+#                port: 80
+#                host: www.mcdonaldland.info
+
+
 #          preStop:
 #            exec:
 #              command: "DO SOMETHING"          
