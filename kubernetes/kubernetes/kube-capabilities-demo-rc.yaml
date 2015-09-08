@@ -58,14 +58,16 @@ spec:
 #############################
 ##### THIS WORKS TO START THE SERVER, HOWEVER WON'T
 ##### ACTUALLY CREATE THE JSP FILE.      
-        command:
-          - "catalina.sh"
-          - "run"
-          - "&&"
-          - "echo"
-          - "adsf"
-          - ">"
-          - "/usr/local/tomcat/webapps/ROOT/yo.jsp"          
+#        command:
+#          - "catalina.sh"
+#          - "run"
+#          - "&&"
+#          - "/bin/bash -c 'mv /usr/local/tomcat/webapps/ROOT/index.jsp /usr/local/tomcat/webapps/ROOT/yo.jsp'"
+#          - "/bin/bash -c 'echo #### I am up.. ####'"
+#          - "echo"
+#          - "##########################################################################################################################################################################################################"
+#          - ">"
+#          - "/usr/local/tomcat/webapps/ROOT/yo.jsp"          
         
         # Expose the standard http port so we can get to it.
         ports:
@@ -126,7 +128,15 @@ spec:
 
             # Create a file as a proof of concept that we can manipulate
             # the running environment upon startup.
-#            exec:
+            exec:
+              command:
+########################################################
+########################################################
+## THIS SEEMS TO MAKE THE NODE MOVE TO NotReady >>>
+########################################################
+########################################################
+              - "/bin/bash -c 'mv /usr/local/tomcat/webapps/ROOT/index.jsp /usr/local/tomcat/webapps/ROOT/yo.jsp'"
+#              command: [ 'while true; do echo "I am up.."; sleep 2; done' ]
 #              command: [ "echo", "adsf", ">'", "/usr/local/tomcat/webapps/ROOT/yo.jsp" ]
 #              command:
 #                - "echo"
