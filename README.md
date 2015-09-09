@@ -32,7 +32,8 @@ These files demonstrate how to set up the various aspects of the kubernetes/dock
 Key things this is creating/using:
 
 * Secrets
-* Services with exposed endpoints (see http://www.mcdonaldland.info/2015/08/27/kubernetes-exposing-port-outside-cluster/ if you are having trouble getting your endpoint to work.)
+* Services with exposed endpoints
+  * See http://www.mcdonaldland.info/2015/08/27/kubernetes-exposing-port-outside-cluster/ if you are having trouble getting your endpoint to work.
 * Replication Controllers
   * Annotations
   * Volumes
