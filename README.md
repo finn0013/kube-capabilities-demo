@@ -22,9 +22,12 @@ Created a docker file that adds the nano text editor to the tomcat image. The pu
 Just a single empty file right now. Will be built out to do more later though.
 
 ### Kubernetes Helpers
-* set-kube-env.sh - Sets some basics for the environment like the number of minions, vagrant as the provider, etc.
-* kube-all.sh - Lists the status for nodes, pods, services, replication controllers, secrets, namespace, and endpoints, all through a single command.
-* kube-help.sh - Lists out useful commands in, primarily to be used as a reminder.
+#### set-kube-env.sh
+Sets some basics for the environment like the number of minions, vagrant as the provider, etc.
+#### kube-all.sh
+Lists the status for nodes, pods, services, replication controllers, secrets, namespace, and endpoints, all through a single command.
+#### kube-help.sh
+Lists out useful commands in, primarily to be used as a reminder.
 
 ### Kubernetes
 These files demonstrate how to set up the various aspects of the kubernetes/docker infrastructure.
