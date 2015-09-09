@@ -43,4 +43,4 @@ Key things this is creating/using:
   * Environment variables
   * Liveness Probe [**** IN PROGRESS ****]
   * Readiness Probe [**** IN PROGRESS ****]
-** Lifecycle events
+  * Lifecycle events
