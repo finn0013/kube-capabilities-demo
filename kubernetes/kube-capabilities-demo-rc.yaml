@@ -130,15 +130,22 @@ spec:
             # This used docker exec to run these commands. When troubleshooting
             # ssh into the node then use docker exec to figure out what does and
             # doesn't work.
-            #
+            
             # Copy a file as a proof of concept that this works.
-            #
+            #exec:
+            #  command:
+            #  - cp
+            #  - /usr/local/tomcat/webapps/ROOT/index.jsp
+            #  - /usr/local/tomcat/webapps/ROOT/yo.jsp
+            
+            
             # TODO: Update to pull data from git volume.
             exec:
               command:
               - cp
-              - /usr/local/tomcat/webapps/ROOT/index.jsp
-              - /usr/local/tomcat/webapps/ROOT/yo.jsp
+              - -R
+              - /etc/kube-capabilities-demo/git/kube-capabilities-demo/web/
+              - /usr/local/tomcat/webapps/kcd/
 
           preStop:
           

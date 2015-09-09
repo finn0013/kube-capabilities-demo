@@ -38,6 +38,7 @@ Key things this is creating/using:
   * Annotations
   * Volumes
     * Git Repo
+      * Copies files from gitRepo volume into web directory for serving over http.
     * Secrets
   * Container commands
   * Environment variables
