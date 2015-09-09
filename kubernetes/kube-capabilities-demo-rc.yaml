@@ -38,11 +38,14 @@ spec:
     
       volumes:
 
-      # Set up a gitRepo volume.
-#      - name: kube-capabilities-demo-git
-#        gitRepo:
-#          repository: https://github.com/finn0013/test/git
-#          revision: master
+      # Set up a gitRepo volume. This is the entire repo that
+      # contains these files, web files, etc. but in reality
+      # you'd want to work with something that is just what you
+      # are wanting to deploy.
+      - name: kube-capabilities-demo-git
+        gitRepo:
+          repository: https://github.com/finn0013/kube-capabilities-demo.git
+          revision: master
 
       # Pull in some secret data (just because).
       - name: kube-capabilities-demo-secret
@@ -91,9 +94,9 @@ spec:
           mountPath: /etc/kube-capabilities-demo/secrets
           
         # Mount our git repo volume.
-#        - name: kube-capabilities-demo-git
-#          readOnly: true
-#          mountPath: /etc/kube-capabilities-demo/git
+        - name: kube-capabilities-demo-git
+          readOnly: true
+          mountPath: /etc/kube-capabilities-demo/git
 
         # Set up a probe to check whether the system is live or not.
         # Set up here just to demonstrate the concept.
