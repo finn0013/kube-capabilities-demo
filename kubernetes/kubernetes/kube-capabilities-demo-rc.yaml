@@ -55,19 +55,17 @@ spec:
         # We are using a standard Tomcat image. 
         image: finn0013/tomcat-nano
       
-#############################
-##### THIS WORKS TO START THE SERVER, HOWEVER WON'T
-##### ACTUALLY CREATE THE JSP FILE.      
-#        command:
-#          - "catalina.sh"
-#          - "run"
-#          - "&&"
-#          - "/bin/bash -c 'mv /usr/local/tomcat/webapps/ROOT/index.jsp /usr/local/tomcat/webapps/ROOT/yo.jsp'"
-#          - "/bin/bash -c 'echo #### I am up.. ####'"
-#          - "echo"
-#          - "##########################################################################################################################################################################################################"
-#          - ">"
-#          - "/usr/local/tomcat/webapps/ROOT/yo.jsp"          
+
+        # This will start the server and allow for additional
+        # commands to be tacked on. This is commented out though
+        # as the best practice would be to let the container 
+        # manage it's own start commands unless there is a need
+        # to override. Any subsequent commands can be run via
+        # lifecycle.postStart.exec.command 
+        #command:
+        #  - "catalina.sh"
+        #  - "run"
+
         
         # Expose the standard http port so we can get to it.
         ports:
@@ -116,47 +114,38 @@ spec:
 #          timeoutSeconds: 5
           
         # Set up lifecycle hooks to invoke events upon the start and
-        # stop of the container.
-#        lifecycle:
-#          postStart:
+        # stop of the container. 
+        #
+        # Examples for both exec and httpGet work but you can only use 
+        # one at a time, per hook. If you really need to do both it would
+        # be worth investigating an exec that invokes a url at the end, 
+        # though you'd just need to ensure you had curl or an equivalent 
+        # installed on the image.        
+        lifecycle:    
+          postStart:     
+          
+            # This used docker exec to run these commands. When troubleshooting
+            # ssh into the node then use docker exec to figure out what does and
+            # doesn't work.
+            #
+            # Copy a file as a proof of concept that this works.
+            #
+            # TODO: Update to pull data from git volume.
+            exec:
+              command:
+              - cp
+              - /usr/local/tomcat/webapps/ROOT/index.jsp
+              - /usr/local/tomcat/webapps/ROOT/yo.jsp
 
-
-# TODO: FIGURE OUT HOW TO MAKE THIS HAPPEN CORRECTLY - COMMAND AND POSTSTART EXEC ARE NOT WORKING FOR ME>>>
-# On start of the container pull the Git repo information in
-# to the public html directory so we can serve it.            
-
-
-            # Create a file as a proof of concept that we can manipulate
-            # the running environment upon startup.
-#            exec:
-#              command:
-########################################################
-########################################################
-## THIS SEEMS TO MAKE THE NODE MOVE TO NotReady >>>
-########################################################
-########################################################
-#              - "/bin/bash -c 'mv /usr/local/tomcat/webapps/ROOT/index.jsp /usr/local/tomcat/webapps/ROOT/yo.jsp'"
-#              command: [ 'while true; do echo "I am up.."; sleep 2; done' ]
-#              command: [ "echo", "adsf", ">'", "/usr/local/tomcat/webapps/ROOT/yo.jsp" ]
-#              command:
-#                - "echo"
-#                - "adsf"
-#                - ">"
-#                - "/usr/local/tomcat/webapps/ROOT/yo.jsp"
-
-
-              # Showing how to call an external URL on start. This example
-              # hits 'counter.php' to increment a count. Hit 'counter.txt'
-              # to see the count and 'reset.php' to reset to 0.
-#              httpGet:
-#                path: /files/hitcount/counter.php
-#                port: 80
-#                host: www.mcdonaldland.info
-
-
-#          preStop:
-#            exec:
-#              command: "DO SOMETHING"          
+          preStop:
+          
+            # Showing how to call an external URL on start. This example
+            # hits 'counter.php' to increment a count. Hit 'counter.txt'
+            # to see the count and 'reset.php' to reset to 0.
+            httpGet:
+              path: /files/hitcount/counter.php
+              port: 80
+              host: www.mcdonaldland.info
         
 # FUTURE TODO:
 # Set up cAdvisor (https://github.com/google/cadvisor)
