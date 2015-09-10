@@ -1,3 +1,28 @@
+########################################################################
+########################################################################
+##
+## TODO:
+##
+## - Update examples so they do not rely on McDonaldLand.info and
+##   use local pods instead. Perhaps just a simple JSP that simply
+##   logs everything passed to it via query string.
+##
+## - Set up cAdvisor (https://github.com/google/cadvisor)
+##
+## - Set up flume/kafka/flafka
+##
+## - Set up remote pages to control liveness and readiness probe
+##   responses.
+##
+## - Set up remote kube pod (or another way to control via services).
+##
+## - Figure out how to illustrate blue-green deployments.
+##
+########################################################################
+########################################################################
+
+# This RC stands up pods that run the proof of concept itself.
+
 apiVersion: v1
 kind: ReplicationController
 
@@ -98,23 +123,24 @@ spec:
           readOnly: true
           mountPath: /etc/kube-capabilities-demo/git
 
-        # Set up a probe to check whether the system is live or not.
-        # Set up here just to demonstrate the concept.
-#        livenessProbe:
-#          httpGet:
-#            path: /livecheck.jsp
-#            port: 80
-#          initialDelaySeconds: 30
-#          timeoutSeconds: 5
+        # This will check to see if a system is in a live state or
+        # not. If not, it will be restarted.
+        livenessProbe:
+          httpGet:
+            path: /kcd/liveCheck.jsp
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
           
-        # Set up a probe to check whether the system is ready or not.
-        # Set up here to just demonstrate the concept.
-#        readinessProbe:
-#          httpGet:
-#            path: /livecheck.html
-#            port: 80
-#          initialDelaySeconds: 30
-#          timeoutSeconds: 5
+        # This will check to see if the system is responsive. If
+        # it is not kube will stop allowing service requests until
+        # it comes back to a responsive state.
+        readinessProbe:
+          httpGet:
+            path: /kcd/readinessCheck.jsp
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
           
         # Set up lifecycle hooks to invoke events upon the start and
         # stop of the container. 
@@ -124,27 +150,20 @@ spec:
         # be worth investigating an exec that invokes a url at the end, 
         # though you'd just need to ensure you had curl or an equivalent 
         # installed on the image.        
+        #
+        # This uses docker exec to run exec commands. When troubleshooting
+        # ssh into the node then use docker exec to figure out what does and
+        # doesn't work.
         lifecycle:    
-          postStart:     
-          
-            # This used docker exec to run these commands. When troubleshooting
-            # ssh into the node then use docker exec to figure out what does and
-            # doesn't work.
+          postStart:                 
             
-            # Copy a file as a proof of concept that this works.
-            #exec:
-            #  command:
-            #  - cp
-            #  - /usr/local/tomcat/webapps/ROOT/index.jsp
-            #  - /usr/local/tomcat/webapps/ROOT/yo.jsp
-            
-            
-            # TODO: Update to pull data from git volume.
+            # Pull our git web files into the webapps directory so they are
+            # available via http.
             exec:
               command:
               - cp
               - -R
-              - /etc/kube-capabilities-demo/git/kube-capabilities-demo/web/
+              - /etc/kube-capabilities-demo/git/kube-capabilities-demo/web/demo
               - /usr/local/tomcat/webapps/kcd/
 
           preStop:
@@ -156,7 +175,3 @@ spec:
               path: /files/hitcount/counter.php
               port: 80
               host: www.mcdonaldland.info
-        
-# FUTURE TODO:
-# Set up cAdvisor (https://github.com/google/cadvisor)
-# Figure out how to mount a kafka/flume/flafka container, a mongo container, and use an emptyDir volume to tie them together with the web container.

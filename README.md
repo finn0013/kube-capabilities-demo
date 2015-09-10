@@ -42,6 +42,6 @@ Key things this is creating/using:
     * Secrets
   * Container commands
   * Environment variables
-  * Liveness Probe [**** IN PROGRESS ****]
-  * Readiness Probe [**** IN PROGRESS ****]
+  * Liveness Probe
+  * Readiness Probe
   * Lifecycle events
