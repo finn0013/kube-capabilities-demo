@@ -26,29 +26,34 @@ in the results with jquery.
 
 // Nodes
 $.getJSON("/kcd/nodes.json", function(data) {
-	var nodes = "<h2>Nodes:</h2>";
-	for (var i in data.items) {
-		nodes += "<br/><br/>Name: " + data.items[i].metadata.name;
-		nodes += "<br/>Created: " + data.items[i].metadata.creationTimestamp;
-		nodes += "<br/>State: " + data.items[i].status.conditions[0].type;
+	for (var i in data.items) {	
+		var nodeName = data.items[i].metadata.name.replace(".", "").replace(".", "").replace(".", "");
+		var node = "<div class='node'>"
+		node += "<span class='name'>Node " + data.items[i].metadata.name + "</span>";
+		node += "<span class='created'>Created " + data.items[i].metadata.creationTimestamp + "</span>";
+		node += "<span class='state'>State: " + data.items[i].status.conditions[0].type + "</span>";
+		node += "<div id='node" + nodeName + "'></div>"
+		node += "</div>"
+		
+		$("#cluster-info").append(node);
 	}
 
 	// Pods
-
 	$.getJSON("/kcd/pods.json", function(data) {
-		var pods = "<hr/><h2>Pods</h2>";
 		for (var i in data.items) {
-			pods += "<br/><br/>Name: " + data.items[i].metadata.name;
-			pods += "<br/>Created: " + data.items[i].metadata.creationTimestamp;
-			pods += "<br/>Label[env]: " + data.items[i].metadata.labels.env;
-			pods += "<br/>Annotations[env]: " + data.items[i].metadata.annotations.build;
-			pods += "<br/>State: " + data.items[i].status.phase + " - " + data.items[i].status.conditions[0].type;
-		}        	
-		
-		$("#cluster-info").html(nodes + pods);
+			var parentNodeName = data.items[i].spec.nodeName.replace(".", "").replace(".", "").replace(".", "");
+			var pod = "<div class='pod " + data.items[i].metadata.labels.color + "' id='" + parentNodeName + data.items[i].metadata.name+ "'>";
+			pod += "<span class='name'>Pod " + data.items[i].metadata.name + "</span>";						
+			pod += "<span class='created'>Created " + data.items[i].metadata.creationTimestamp + "</span>";			
+			pod += "<span class='data'>Environment: " + data.items[i].metadata.labels.env + "</span>";
+			pod += "<span class='data'>Build: " + data.items[i].metadata.annotations.build + "</span>";
+			pod += "<span class='state'>State: " + data.items[i].status.phase + " - " + data.items[i].status.conditions[0].type + "</span>";
+			pod += "</div>"
+			
+			$("#node" + parentNodeName).append(pod);
+		}        			
 	});
 });
-
 </script>
 </head>
 

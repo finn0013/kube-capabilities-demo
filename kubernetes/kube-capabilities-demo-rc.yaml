@@ -63,6 +63,7 @@ spec:
       labels:
         name: kube-capabilities-demo
         env: demo
+        color: blue
         
       annotations:
         # This means nothing - just here to show

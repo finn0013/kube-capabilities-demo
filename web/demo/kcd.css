@@ -2,3 +2,35 @@ html * {
 	color: #4C4646;
 	font-family: Arial;
 }
+
+.name {
+	font-size: 18pt;
+	font-weight: bold;
+}
+
+.node {
+	border: 1px #571B7E solid;
+	background-color: #EBDDE2;
+	padding: 5px 5px 5px 5px;
+}
+
+.pod {
+	border: 1px #4C4646 solid;
+	background-color: #E5E4E2;
+	padding: 5px 5px 5px 5px;
+}
+
+.blue {
+	border: 1px #151B54 solid;
+	background-color: #C2DFFF;
+}
+
+.green {
+	border: 1px #254117 solid;
+	background-color: #C3FDB8;
+}
+
+.canary {
+	border: 1px #FBB917 solid;
+	background-color: #FFFFCC;
+}
