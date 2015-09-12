@@ -1,7 +1,9 @@
 <%-- 
-Having all of this logic in a JSP is not good practice. This route was taken only to facilitate a very quick and dirty example.
+Having all of this logic/code in a JSP is not good practice. 
+This route was taken only to facilitate a very quick and dirty example.
 --%>
 
+<%@page import="javax.json.*" %>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.io.*"%>
@@ -21,19 +23,37 @@ Having all of this logic in a JSP is not good practice. This route was taken onl
 
         <p>Now, for something truly useful, hereare the running pods:</p>
 
-<%    
-Runtime r = Runtime.getRuntime();
-Process p = r.exec("curl localhost:8001/api/v1/pods");
-InputStreamReader isr = new InputStreamReader(p.getInputStream());
-BufferedReader br = new BufferedReader(isr);
-String line = null;
-while ((line = br.readLine()) != null) {
-        %><%= line %><%
-}
-
-br.close();
-isr.close();
-%>
+		<%= exec("curl localhost:8001/api/v1/pods") %>
 
 </body>
 </html>
+
+
+<%!
+
+public String exec(String command) {
+
+	StringBuilder response = new StringBuilder();
+
+	try {
+		Runtime r = Runtime.getRuntime();
+		Process p = r.exec(command);
+	
+		InputStreamReader isr = new InputStreamReader(p.getInputStream());
+		BufferedReader br = new BufferedReader(isr);
+		String line = null;
+		while ((line = br.readLine()) != null) {
+	        	response.append(line);
+		}
+
+		br.close();
+		isr.close();
+	} catch (Exception e) {
+		response.append("ERROR!");
+		response.append(e.getMessage());
+	}
+
+	return response.toString();
+}
+
+%>
