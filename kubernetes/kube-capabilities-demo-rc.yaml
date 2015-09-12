@@ -9,14 +9,24 @@
 ##
 ## - Set up cAdvisor (https://github.com/google/cadvisor)
 ##
-## - Set up flume/kafka/flafka
-##
 ## - Set up remote pages to control liveness and readiness probe
 ##   responses.
 ##
 ## - Set up remote kube pod (or another way to control via services).
 ##
 ## - Figure out how to illustrate blue-green deployments.
+##
+## - Set up event / log consolidation
+##
+## - Tech to look at
+##   - flume
+##   - fabric8
+##   - fluentd: http://www.dasblinkenlichten.com/logging-in-kubernetes-with-fluentd-and-elasticsearch/
+##     http://www.fluentd.org/guides/recipes/docker-logging
+##   - elastic
+##   - grafana
+##   - influxdb
+##   - kafka/flafka
 ##
 ########################################################################
 ########################################################################
@@ -76,6 +86,10 @@ spec:
       - name: kube-capabilities-demo-secret
         secret:
           secretName: kube-capabilities-demo-secret
+
+      # This is for the kubectl proxy. See below.
+      - name: test-volume
+        emptyDir: {}
     
       containers:
       - name: kube-capabilities-demo
@@ -175,3 +189,30 @@ spec:
               path: /files/hitcount/counter.php
               port: 80
               host: www.mcdonaldland.info
+        
+        
+      # Set up a kubectl proxy so that we can pull details out about the cluster.
+      # This is all information taken directly from the kube examples.        
+      - name: bb
+        image: gcr.io/google_containers/busybox
+        command:
+        - sh
+        - -c
+        - sleep 5; wget -O - ${KUBERNETES_RO_SERVICE_HOST}:${KUBERNETES_RO_SERVICE_PORT}/api/v1/pods/; sleep 10000
+        ports:
+        - containerPort: 8080
+        env:
+        - name: KUBERNETES_RO_SERVICE_HOST
+          value: 127.0.0.1
+        - name: KUBERNETES_RO_SERVICE_PORT
+          value: "8001"
+        volumeMounts: 
+        - name: test-volume
+          mountPath: /mount/test-volume
+      - name: kubectl
+        image: gcr.io/google_containers/kubectl:v0.18.0-120-gaeb4ac55ad12b1-dirty
+        imagePullPolicy: Always
+        args:
+        - proxy
+        - -p
+        - "8001"
