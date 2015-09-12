@@ -3,6 +3,10 @@
 ##
 ## TODO:
 ##
+## - Add another RC so that we can watch nodes in real time as they
+##   come up and down. Doing it with the same server that we monitor
+##   with is causing gaps when the RC cycles.
+##
 ## - Update examples so they do not rely on McDonaldLand.info and
 ##   use local pods instead. Perhaps just a simple JSP that simply
 ##   logs everything passed to it via query string.
@@ -50,8 +54,8 @@ metadata:
     
 spec:
 
-  # Make sure we keep 3 pods up at all times.
-  replicas: 3
+  # Make sure we keep 1 pod up at all times.
+  replicas: 1
   
   
   selector:
