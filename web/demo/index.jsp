@@ -19,6 +19,7 @@ in the results with jquery.
 
 <html>
 <head>
+<meta http-equiv="refresh" content="1">
 <title>Kubernetes Capabilities Demo</title>
 <link rel="stylesheet" type="text/css" href="kcd.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
