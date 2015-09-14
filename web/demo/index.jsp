@@ -19,7 +19,7 @@ in the results with jquery.
 
 <html>
 <head>
-<meta http-equiv="refresh" content="1">
+<meta http-equiv="refresh" content="3">
 <title>Kubernetes Capabilities Demo</title>
 <link rel="stylesheet" type="text/css" href="kcd.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -30,7 +30,8 @@ $.getJSON("/kcd/nodes.json", function(data) {
 	for (var i in data.items) {	
 		var nodeName = data.items[i].metadata.name.replace(".", "").replace(".", "").replace(".", "");
 		var node = "<div class='node'>"
-		node += "<span class='name'>Node " + data.items[i].metadata.name + "</span>";
+		node += "<span class='type'>Node</span>"
+		node += "<span class='name'>" + data.items[i].metadata.name + "</span>";
 		node += "<span class='created'>Created " + data.items[i].metadata.creationTimestamp + "</span>";
 		node += "<span class='state'>State: " + data.items[i].status.conditions[0].type + "</span>";
 		node += "<div id='node" + nodeName + "'></div>"
@@ -44,7 +45,8 @@ $.getJSON("/kcd/nodes.json", function(data) {
 		for (var i in data.items) {
 			var parentNodeName = data.items[i].spec.nodeName.replace(".", "").replace(".", "").replace(".", "");
 			var pod = "<div class='pod " + data.items[i].metadata.labels.color + "' id='" + parentNodeName + data.items[i].metadata.name+ "'>";
-			pod += "<span class='name'>Pod " + data.items[i].metadata.name + "</span>";						
+			pod += "<span class='type'>Pod</span>"
+			pod += "<span class='name'>" + data.items[i].metadata.name + "</span>";						
 			pod += "<span class='created'>Created " + data.items[i].metadata.creationTimestamp + "</span>";			
 			pod += "<span class='data'>Environment: " + data.items[i].metadata.labels.env + "</span>";
 			pod += "<span class='data'>Build: " + data.items[i].metadata.annotations.build + "</span>";

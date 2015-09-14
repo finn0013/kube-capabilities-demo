@@ -1,10 +1,20 @@
 html * {
 	color: #4C4646;
 	font-family: Arial;
+	font-size: 10pt;
 }
 
 .name {
-	font-size: 18pt;
+	font-size: 14pt;
+	font-weight: bold;
+	margin-bottom: 5px;
+	display: block;
+}
+
+.type {
+	display: inline;
+	float: right;
+	color: green;
 	font-weight: bold;
 }
 
@@ -12,12 +22,31 @@ html * {
 	border: 1px #571B7E solid;
 	background-color: #EBDDE2;
 	padding: 5px 5px 5px 5px;
+	height: 90%;
+}
+
+.node .state {
+	margin-bottom: 10px;
 }
 
 .pod {
 	border: 1px #4C4646 solid;
 	background-color: #E5E4E2;
 	padding: 5px 5px 5px 5px;
+	margin: 5px 5px 5px 5px;
+	width: 250px;
+	float: left;
+}
+
+.pod .name {
+	font-size: 10pt;
+}
+
+.created,
+.state,
+.data,
+.pod .node {
+	display: block;
 }
 
 .blue {
