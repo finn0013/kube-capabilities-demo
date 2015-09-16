@@ -19,7 +19,7 @@ More information on these areas is listed below.
 Created a docker file that adds the nano text editor to the tomcat image. The purpose is to both demonstrate how images can be added to as well as to provide a mechanism for easy troubleshooting during this pilot.
 
 ### Web
-Just a single empty file right now. Will be built out to do more later though.
+Contains 3 files of interest: two do-nothing server status files and index.jsp, which gives a visual of what is happening on the cluster. Use the scripts detailed below to make interesting stuff actually happen on this page.
 
 ### Kubernetes Helpers
 * set-kube-env.sh - Sets some basics for the environment like the number of minions, vagrant as the provider, etc.
@@ -29,7 +29,9 @@ Just a single empty file right now. Will be built out to do more later though.
 ### Kubernetes
 These files demonstrate how to set up the various aspects of the kubernetes/docker infrastructure.
 
-Key things this is creating/using:
+#### YAML Files
+##### kube-capabilities-demo-rc.yaml
+The main monitoring Replication Controller. Key things this is creating/using:
 
 * Secrets
 * Services with exposed endpoints
@@ -45,3 +47,42 @@ Key things this is creating/using:
   * Liveness Probe
   * Readiness Probe
   * Lifecycle events
+
+##### kube-capabilities-demo-secret.yaml
+A simple illustration of using secrets.
+
+##### kube-capabilities-demo-svc.yaml
+This makes our demo RC available outside the cluster - so you can hit it with you browser.
+
+##### kube-capabilities-tomcat-rc.yaml
+This is just an empty tomcat-nano container that isn't even exposed to the world. It is just here to illustrate the replication controllers capabilities for things like canary tests, blue-green deployments, etc.
+
+##### kube-capabilities-tomcat-green-rc.yaml
+This is used in the blue-green and subsequent green-blue deployments.
+
+##### kube-capabilities-canary-rc.yaml
+This is NOT a working replication controller file. This is intended to be a template that gets updated by the canary-test-start.sh script (outlined below).
+
+#### Scripts
+
+##### start-kcd.sh
+Starts the cluster for demo purposes.
+
+##### stop-kcd.sh
+Stops the cluster. Don’t worry about errors here – it tries to stop everything that could possibly be running.
+
+##### canary-test-start.sh
+Creates 2 (or more if you supply a # arg) pods to mimic a canary test.
+
+##### canary-test-stop.sh
+Kills any running canary pods. Does nothing if canary-test-start.sh hasn’t been run first.
+
+##### blue-green-start.sh
+Runs a blue-green server deployment. Note that this does NOT do anything to validate sessions, users, shut down connections gracefully, etc.
+
+For this script to work the cluster must be running 'blue' labeled pods (default after start-kcd.sh).
+
+##### green-blue-start.sh
+Runs a green-blue (reversing the blue-green) server deployment. Note that this does NOT do anything to validate sessions, users, shut down connections gracefully, etc.
+
+For this script to work the cluster must be running 'green' labeled pods.
