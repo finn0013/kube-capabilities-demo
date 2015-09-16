@@ -3,6 +3,10 @@ echo -e "kubectl get [nodes | pods | services | replication controllers | namesp
 echo Lists all nodes, pods, services, or replication controllers, respectively.
 
 echo -e "\033[1;32m"
+echo -e "kubectl get [...] --watch-only\033[0m"
+echo Watches the resource continuously.
+
+echo -e "\033[1;32m"
 echo -e "kubectl describe pods/<pod_name>\033[0m"
 echo Lists basic information and events for a given pod.
 
