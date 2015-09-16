@@ -1,3 +1,8 @@
+# Starts the cluster for demo purposes.
+
+
+#!/bin/bash
+
 kubectl create -f ./kube-capabilities-demo-secret.yaml
 
 kubectl create -f ./kube-capabilities-demo-svc.yaml

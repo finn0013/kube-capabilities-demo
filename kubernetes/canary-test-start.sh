@@ -1,3 +1,7 @@
+# Creates 2 (or more if you supply a # arg) pods 
+# to mimic a canary test.
+
+
 #!/bin/bash
 
 rm -f canary-rc.yaml

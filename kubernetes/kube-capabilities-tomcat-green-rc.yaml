@@ -1,0 +1,42 @@
+# This RC stands up a relatively empty Tomcat instance for demo purposes.
+# Note that if we really wanted these to be usable we'd also expose ports
+# and set up a service to expose them.
+
+apiVersion: v1
+kind: ReplicationController
+
+metadata:
+  name: kube-capabilities-tomcat-green
+  
+  labels:
+    name: kube-capabilities-tomcat-green
+    
+spec:
+
+  # Make sure we keep 1 pod up at all times.
+  replicas: 4
+  
+  
+  selector:
+    name: kube-capabilities-tomcat-green
+  
+  template:
+  
+    metadata:      
+      labels:
+        name: kube-capabilities-tomcat-green
+        env: demo
+        color: green
+        
+      annotations:
+        # This means nothing - just here to show
+        # we can attach things like this to build info.
+        build: tomcat-demo-1.0        
+        
+    spec:
+    
+      containers:
+      - name: kube-capabilities-tomcat
+      
+        # We are using a standard Tomcat image. 
+        image: finn0013/tomcat-nano
