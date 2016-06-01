@@ -21,6 +21,8 @@ Created a docker file that adds the nano text editor to the tomcat image. The pu
 ### Web
 Contains 3 files of interest: two do-nothing server status files and index.jsp, which gives a visual of what is happening on the cluster. Use the scripts detailed below to make interesting stuff actually happen on this page.
 
+This also contains a static javascript mock up of deploying containers, blue-green deployments, container deployments, and declarative orchestration. I needed this while in India as I could not get the actual demo working from there so figured I'd throw it out in case anyone else needed it.
+
 ### Kubernetes Helpers
 * set-kube-env.sh - Sets some basics for the environment like the number of minions, vagrant as the provider, etc.
 * kube-all.sh - Lists the status for nodes, pods, services, replication controllers, secrets, namespace, and endpoints, all through a single command.

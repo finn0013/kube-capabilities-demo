@@ -1,0 +1,317 @@
+<html>
+<head>
+<title>Containerization Demo</title>
+
+<style type="text/css">
+
+* {
+	font-family: Arial;
+}
+
+.empty {
+	display: block;
+	color: #CCC;
+	text-align: center;
+	margin-top: 25px;
+	font-size: 25pt;
+	position: absolute;
+	top: 25;
+}
+
+#farm {	
+	width: 82%;
+	padding: 15px 5px 5px 5px;
+	float: left;
+	min-height: 300px;
+	border-right: 1px solid #333;	
+}
+
+#farm_title {
+	margin-top: 15px;
+	font-weight: bold;
+	border-bottom: 1px solid #333;	
+	padding-bottom: 5px;
+	font-size: 14pt;
+}
+
+#navigation {
+	width: 15%;
+	float: right;
+	padding-top: 10px;
+	padding-left: 10px;		
+}
+
+.container {
+	width: 100px;
+	max-width: 100px;
+	border: 1px dashed #333;
+	background-color: #CCC;
+	padding: 5px 5px 5px 5px;
+	margin-right: 15px;
+	margin-bottom: 15px;
+	float: left;
+	text-align: center;
+	min-height: 70px;
+}
+
+.markedForRemoval {
+	background-color: orange;
+	color: white;
+}
+
+.markedForFailure {
+	background-color: red;
+	color: white;
+}
+
+button, input {
+	padding: 5px;
+	margin: 5px;
+	font-size: 12pt;
+}
+
+button {
+	font-size: 10pt;
+}
+
+#containerCount, #canaryCount {
+	width: 50px;
+	max-width: 50px;
+	text-align: center;
+}
+
+#containersCountMsg {
+	float: right;
+	font-size: 10pt;
+	font-weight: normal;
+	margin-top: 5px;
+}
+
+.removeContainerButton {
+	display: none;
+}
+
+hr {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.green {
+	background-color: lightgreen;
+}
+
+.grey {
+	background-color: #CCC;
+}
+
+.blue {
+	background-color: lightblue;
+}
+
+.yellow {
+	background-color: gold;
+}
+
+.peru {
+	background-color: peru;
+}
+
+</style>
+
+
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+
+var containerCount = 0;
+var containerIndex = 0;
+var canaries = [];
+
+function addContainers(cnt) {
+
+	for (var i = 0;i <= cnt;i++) {
+		addContainer();
+	}
+}
+
+function updateContainerCountDisplay() {
+	$("#cCnt").html(containerCount);
+}
+
+function addContainer(isSpecial) {
+
+	containerCount++;
+	containerIndex++;
+	
+	if (containerCount > 0) { $(".empty").fadeOut() };
+	
+	var container = $("#container").clone();
+	var id = "container-" + containerIndex;
+	container.attr("id", id);
+	container.html(id + "<br/><button class='failContainerButton' onClick=\"failContainer('" + id + "')\">Fail Container</button>");
+	container.css("display", "none");
+	container.insertBefore(".empty");
+	container.delay(500).fadeIn(3500, function() {
+		container.addClass("grey");
+	});
+	
+	if (isSpecial) {
+		container.addClass(isSpecial);
+	}
+	
+	updateContainerCountDisplay();
+}
+
+function removeContainer(id, ignoreRemovalMessage) {
+
+	if (!ignoreRemovalMessage) {
+		$("#" + id).addClass("markedForRemoval");
+		$("#" + id).html(id + " marked for removal");
+	}
+	
+	$("#" + id).delay(2000).fadeOut(3500, function() { $("#" + id).remove() });
+	containerCount--;	
+
+	updateContainerCountDisplay();
+	
+	if (containerCount <= 0) {
+		$(".empty").delay(5500).fadeIn()
+	}
+}
+
+function blueGreenDeployment() {
+
+	for (var i = containerIndex;i > 0;i--) {
+		if ($("#container-" + i).length > 0) {
+			$("#container-" + i).addClass("blue");
+		}
+	}
+	
+	for (var i = containerIndex;i > 0;i--) {
+		if ($("#container-" + i).length > 0) {
+			addContainer("green");
+			removeContainer("container-" + i);
+		}
+	}	
+}
+
+function canaryDeployment() {
+	var pct = parseInt($("#canaryCount").val());
+	var replaceCount = Math.ceil(containerCount * (pct / 100));
+
+	var rCnt = 0;
+	for (var i = containerIndex;i > 0;i--) {
+		if ($("#container-" + i).length > 0) {
+			$("#container-" + i).addClass("peru");
+			rCnt++;
+			if (rCnt >= replaceCount) {
+				break;
+			}
+		}
+	}
+	
+	rCnt = 0;
+	for (var i = containerIndex;i > 0;i--) {
+		if ($("#container-" + i).length > 0) {
+			addContainer("yellow");
+			canaries.push("container-" + containerIndex);
+			
+			removeContainer("container-" + i);
+			rCnt++;
+			if (rCnt >= replaceCount) {
+				break;
+			}
+		}
+	}	
+}
+
+function killCanaries() {
+	for (var i = 0;i < canaries.length;i++) {
+		addContainer();
+		removeContainer(canaries[i]);
+	}
+}
+
+function failContainer(id) {
+	$("#" + id).addClass("markedForFailure");
+	$("#" + id).html(id + " failed!");
+	
+	addContainer();
+	removeContainer(id, true);
+}
+
+function updateContainers() {
+
+	var count = $("#containerCount").val();
+
+	if (count < 0) {
+		alert("You cannot have a negative number of containers. This isn't string theory.");
+		alert("Now creating an infinite number of servers. Standby.");
+		alert("Just kidding.");
+		$("#containerCount").val("5");
+	}
+
+	if (containerCount == parseInt(count)) { 		
+		return; 
+	}
+
+	if (count > containerCount) {
+
+		// Add Containers
+		var addCnt = count - containerCount;
+
+		for (var i = 0;i <= addCnt - 1;i++) {
+			addContainer();
+		}
+		
+	} else {	
+		// Remove containers
+		var removeCnt = containerCount - count;
+
+		// Loop through the indexes backwards until we find and remove
+		// the number we need to reduce by.
+		var removed = 0;
+		for (var i = containerIndex;i > 0;i--) {
+			if ($("#container-" + i).length > 0) {
+
+				removeContainer("container-" + i);
+				removed++;
+				if (removed >= removeCnt) {
+					break;
+				}
+			}			
+		}
+	}
+}
+
+</script>
+
+</head>
+<body>
+
+<div id="farm_title" class="title">
+	Container Farm
+	<span id="containersCountMsg">Currently <span id="cCnt">0</span> containers in farm</span>
+</div>
+
+<div id="farm">
+	<span class="empty">Empty</span>
+</div>
+
+<div id="navigation">
+	Maintain <input id="containerCount" value="5"> containers<br/>
+	<button onClick="updateContainers()">Update Container(s)</button>
+	<hr/>
+	<button onClick="blueGreenDeployment()">Blue-Green Deployment</button>
+	<hr/>
+	Test with <input id="canaryCount" value="10">%<br/>
+	<button onClick="canaryDeployment()">Canary Deployment</button>
+	<button onClick="killCanaries()">Kill Canaries</button>
+</div>
+
+<!-- THAR BE TEMPLATES HERE! -->
+<div id="templates" style="display: none;">
+	<div id="container" class="container">Container!<div>
+</div>
+
+</body>
+</html>
